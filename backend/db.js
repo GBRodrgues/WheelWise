@@ -1,8 +1,18 @@
 const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
-const sequelize = new Sequelize('nome_do_banco', 'usuario', 'senha', {
-  host: 'localhost',
+
+const user = process.env.DB_USER;
+const pass = process.env.PASS;
+const database = process.env.DATABASE;
+const host = process.env.HOST;
+
+
+const sequelize = new Sequelize(database, user , pass, {
+  host: host,
   dialect: 'postgres',
+  port: '5432',
+  schema: 'public'
 });
 
 sequelize.authenticate()
