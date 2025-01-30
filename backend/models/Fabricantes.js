@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db');
 // Modelo information express (GRASP)
-const Motocicleta = sequelize.define('motocicleta', {
+const Fabricantes = sequelize.define('fabricantes', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -12,24 +12,12 @@ const Motocicleta = sequelize.define('motocicleta', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  ano_fabricacao: {
-    type: DataTypes.INTEGER,
+  nacionalidade: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  id_fabricante: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  json_motor: {
-    type: DataTypes.JSON,
-    allowNull: false,
-  },
-  json_dimensoes: {
-    type: DataTypes.JSON,
-    allowNull: false,
-  },
-  json_performance: {
-    type: DataTypes.JSON,
+  data_fundacao: {
+    type: DataTypes.DATE,
     allowNull: false,
   },
   data_insercao: {
@@ -37,8 +25,9 @@ const Motocicleta = sequelize.define('motocicleta', {
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   }
-},{
-  timestamps: false  
 });
 
-module.exports = Motocicleta;
+Fabricantes.removeAttribute('createdAt')
+Fabricantes.removeAttribute('updatedAt')
+
+module.exports = Fabricantes;
