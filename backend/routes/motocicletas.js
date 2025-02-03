@@ -1,8 +1,17 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Motocicleta = require('../models/Motocicleta');
-const Fabricantes = require('../models/Fabricantes');
-const Img_motocicletas = require('../models/Img_motocicleta');
+import { sequelize, Fabricantes, Motocicleta, Img_motocicletas} from './models/index.js'; // Importando os modelos corretamente
+
+const app = express();
+
+sequelize.sync({ force: false }) // Sincronizar os modelos com o banco de dados
+  .then(() => console.log('Banco de dados sincronizado'))
+  .catch(err => console.error('Erro ao sincronizar banco de dados:', err));
+
+app.listen(3000, () => {
+  console.log('Servidor rodando em http://localhost:3000');
+});
+
 
 
 // Padrão controller graps, pois a rota atua como controller
@@ -17,20 +26,27 @@ function inserir_img(data){
 
 router.get('/', async (req, res) => {
   try {
-    const motos = await Motocicleta.findAll();
-    const fabricantes = await Fabricantes.findAll();
-    const imgs = await Img_motocicletas.findAll();
-    fabricantes.forEach(fab => {
-      console.log(fab.toJSON())
+    const motos = await Motocicleta.findAll({
+      include: [
+        {
+          model: Fabricantes,
+          as: 'fabricante',
+          attributes: ['id', 'nome', 'nacionalidade', 'data_fundacao'],
+        },
+        {
+          model: Img_motocicletas,
+          as: 'imagens',
+          attributes: ['id', 'url', 'data_insercao'],
+        }
+      ]
     });
 
-    //console.log(Imgs);
     res.json(motos);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-3
+
 
 
 // Rota para adicionar uma nova motocicleta
@@ -45,5 +61,4 @@ router.post('/', async (req, res) => {
 });
 
 
-
-module.exports = router;
+export default router;

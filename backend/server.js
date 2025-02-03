@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const sequelize = require('./db');
-const motocicletasRoutes = require('./routes/motocicletas');
+import express from 'express';
+import cors from 'cors';
+import sequelize from './db';
+import motocicletasRoutes from './routes/motocicletas';
 
 const app = express();
 app.use(cors());
@@ -17,3 +17,5 @@ sequelize.sync().then(() => {
     console.log(`Servidor rodando na porta ${PORT}`);
   });
 });
+
+export default app;

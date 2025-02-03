@@ -1,10 +1,10 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db');
+import { Sequelize, DataTypes } from 'sequelize';
+import sequelize from '../db';
 // Modelo information express (GRASP)
 const Motocicleta = sequelize.define('motocicleta', {
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: false, 
     primaryKey: true,
     autoIncrement: true,
   },
@@ -41,4 +41,4 @@ const Motocicleta = sequelize.define('motocicleta', {
   timestamps: false  
 });
 
-module.exports = Motocicleta;
+export default Motocicleta;

@@ -1,5 +1,5 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../db');
+import { Sequelize, DataTypes } from 'sequelize';
+import sequelize from '../db';
 // Modelo information express (GRASP)
 const Fabricantes = sequelize.define('fabricantes', {
   id: {
@@ -25,9 +25,8 @@ const Fabricantes = sequelize.define('fabricantes', {
     allowNull: false,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   }
+},{
+  timestamps: false  
 });
 
-Fabricantes.removeAttribute('createdAt')
-Fabricantes.removeAttribute('updatedAt')
-
-module.exports = Fabricantes;
+export default Fabricantes;
