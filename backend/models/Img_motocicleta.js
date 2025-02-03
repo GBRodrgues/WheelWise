@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Sequelize} from 'sequelize';
 import sequelize from '../db';
 // Modelo information express (GRASP)
 const Img_motocicletas = sequelize.define('img_motocicletas', {
@@ -19,6 +19,8 @@ const Img_motocicletas = sequelize.define('img_motocicletas', {
   data_insercao: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+
   }
 },{
   timestamps: false  

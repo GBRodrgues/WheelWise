@@ -60,5 +60,26 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Rota para adicionar um novo Fabricante
+router.post('/fabricante', async (req, res) => {
+  try {
+    console.log(req.body)
+    const novo_fabricante = await Fabricantes.create(req.body); // Padrão Creator (GRASP)
+    res.json(novo_fabricante);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Rota para adicionar uma nova imagem de moto
+router.post('/img', async (req, res) => {
+  try {
+    console.log(req.body)
+    const img = await Img_motocicletas.create(req.body); // Padrão Creator (GRASP)
+    res.json(img);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 export default router;
