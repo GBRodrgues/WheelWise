@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
+import { DataTypes } from 'sequelize';
+import sequelize from '../db';
 // Modelo information express (GRASP)
 const Img_motocicletas = sequelize.define('img_motocicletas', {
   id: {
@@ -20,9 +20,8 @@ const Img_motocicletas = sequelize.define('img_motocicletas', {
     type: DataTypes.DATE,
     allowNull: false,
   }
+},{
+  timestamps: false  
 });
 
-Img_motocicletas.removeAttribute('createdAt')
-Img_motocicletas.removeAttribute('updatedAt')
-
-module.exports = Img_motocicletas;
+export default Img_motocicletas;
