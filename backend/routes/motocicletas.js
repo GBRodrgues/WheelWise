@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { sequelize, Fabricantes, Motocicleta, Img_motocicletas} from './models/index.js'; // Importando os modelos corretamente
+import { sequelize, Fabricantes, Motocicleta, Img_motocicletas } from '../models/index.js'; // Importando os modelos corretamente
 
 const app = express();
 
@@ -17,13 +17,6 @@ app.listen(3000, () => {
 // Padrão controller graps, pois a rota atua como controller
 
 // Rota para obter todas as motocicletas
-
-
-function inserir_img(data){
-  console.log(data)
-}
-
-
 router.get('/', async (req, res) => {
   try {
     const motos = await Motocicleta.findAll({
@@ -47,6 +40,24 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Busca a lista de todos os nomes de motocicletas disponíveis
+router.get('/list', async (req, res) => {
+  try {
+    const motos = await Motocicleta.findAll({
+      attributes: ['nome'],
+      raw: true // Retorna objetos puros sem instância Sequelize
+    });
+
+    // Transformar a resposta no formato desejado
+    const resposta = {
+      nomes: motos.map(moto => moto.nome)
+    };
+
+    res.json(resposta);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 // Rota para adicionar uma nova motocicleta

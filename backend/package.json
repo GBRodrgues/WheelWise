@@ -1,12 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API backend com Express e Sequelize",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "start": "node ./server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -19,8 +19,6 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9",
-    "vite": "^5.4.14",
-    "vite-plugin-node": "^4.0.0"
+    "nodemon": "^3.1.9"
   }
 }

@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize} from 'sequelize';
-import sequelize from '../db';
+import sequelize from '../db.js';
 // Modelo information express (GRASP)
 const Img_motocicletas = sequelize.define('img_motocicletas', {
   id: {
