@@ -31,14 +31,9 @@ const Motocicleta = sequelize.define('motocicleta', {
   json_performance: {
     type: DataTypes.JSON,
     allowNull: false,
-  },
-  data_insercao: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   }
 },{
-  timestamps: false  
+  timestamps: true  
 });
 
 export default Motocicleta;

@@ -2,17 +2,9 @@ import express from 'express';
 const router = express.Router();
 import { sequelize, Fabricantes, Motocicleta, Img_motocicletas } from '../models/index.js'; // Importando os modelos corretamente
 
-const app = express();
-
 sequelize.sync({ force: false }) // Sincronizar os modelos com o banco de dados
   .then(() => console.log('Banco de dados sincronizado'))
   .catch(err => console.error('Erro ao sincronizar banco de dados:', err));
-
-app.listen(3000, () => {
-  console.log('Servidor rodando em http://localhost:3000');
-});
-
-
 
 // Padrão controller graps, pois a rota atua como controller
 

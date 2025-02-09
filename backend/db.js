@@ -1,7 +1,8 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), './backend/.env') });
 
 // Padrão Singleton para instanciar apenas uma conexão ao banco de dados
 class Database {
@@ -18,7 +19,6 @@ class Database {
           logging: false, // Desativa logs do Sequelize
         }
       );
-
       this._sequelize.authenticate()
         .then(() => console.log(' Conexão bem-sucedida ao banco de dados.'))
         .catch(err => console.error(' Erro ao conectar ao banco:', err));

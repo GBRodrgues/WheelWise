@@ -15,15 +15,9 @@ const Img_motocicletas = sequelize.define('img_motocicletas', {
   url: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-  data_insercao: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-
   }
 },{
-  timestamps: false  
+  timestamps: true  
 });
 
 export default Img_motocicletas;
