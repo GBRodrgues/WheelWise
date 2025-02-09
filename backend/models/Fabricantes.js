@@ -19,14 +19,9 @@ const Fabricantes = sequelize.define('fabricantes', {
   data_fundacao: {
     type: DataTypes.DATE,
     allowNull: false,
-  },
-  data_insercao: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   }
 },{
-  timestamps: false  
+  timestamps: true  
 });
 
 export default Fabricantes;
