@@ -11,7 +11,7 @@ sequelize.sync({ force: false }) // Sincronizar os modelos com o banco de dados
 // Rota para registra um usuário
 router.post('/registerUsr', async (req, res) => {
     try {
-      const { nome, email, senha, idade, isAdmin } = req.body;
+      const { nome, email, senha, idade, isAdmin, UF} = req.body;
   
       // Verificar se o usuário já existe
       const userExists = await User.findOne({ where: { email } });
@@ -25,7 +25,8 @@ router.post('/registerUsr', async (req, res) => {
         email,
         senha,
         idade,
-        isAdmin: isAdmin
+        isAdmin: isAdmin,
+        UF
       });
   
       res.status(201).json({ message: 'Registro bem-sucedido', user: newUser });
