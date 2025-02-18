@@ -25,6 +25,10 @@ const User = sequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  UF:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   idade: {
     type: DataTypes.INTEGER,
     allowNull: false,
