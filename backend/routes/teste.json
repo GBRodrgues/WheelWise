@@ -1,0 +1,23 @@
+
+{
+    "status": 200,
+    "moto_id" : 1,
+    "comments" : [
+        {
+            "id":1,
+            "user_id":3,
+            "user_name":"Gabriel Rodrigues",
+            "user_uf": "MG",
+            "content": "Moto muito boa para uso urbano e viagens de distância média!",
+            "createdAt": "2025-02-19T00:05:19.336Z"
+        },
+        {
+            "id":2,
+            "user_id":5,
+            "user_name":"Rodrigo Soares",
+            "user_uf": "MG",
+            "content": "teste",
+            "createdAt": "2025-02-19T20:56:46.038Z"
+        }
+    ]
+}
