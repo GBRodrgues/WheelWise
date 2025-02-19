@@ -4,8 +4,9 @@ import Motocicleta from './Motocicleta.js';
 import Img_motocicletas from './Img_motocicleta.js';
 import setupAssociations from './associations.js';
 import User from './Users.js';
+import Comments from './Comments.js';
 
 // Inicializar as associações corretamente
 setupAssociations();
 
-export { sequelize, Fabricantes, Motocicleta, Img_motocicletas, User};
+export { sequelize, Fabricantes, Motocicleta, Img_motocicletas, User, Comments};
