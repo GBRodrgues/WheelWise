@@ -1,76 +1,61 @@
 <template>
   <div id="app">
-    <div
-      v-for="(moto, index) in motos"
-      :key="index"
-      style="margin-bottom: 20px;"
-    >
-      <MotoCard :moto="moto" />
-    </div>
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/comparator">Comparador</router-link>
+      <router-link to="/catalog">Catalogo</router-link>
+      <router-link
+        v-if="!token"
+        to="/login"
+      >Login</router-link>
+      <router-link
+        v-if="!token"
+        to="/register"
+      >Cadastro</router-link>
+      <a
+        v-if="token"
+        @click="logout"
+      >Sair</a>
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script setup>
-import MotoCard from './components/MotoCard.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const motos = ref([
-  {
-    name: 'CB 650R',
-    brand: 'Honda',
-    price: 10000,
-    engine: {
-      displacement: 649,
-      power: 95,
-      torque: 64,
-      cylinders: 4,
-    },
-    performance: {
-      topSpeed: 220,
-      acceleration: 3.5,
-      consumption: 20,
-    },
-    dimensions: {
-      weight: 202,
-      seatHeight: 810,
-      tankCapacity: 15.4,
-    },
-    image: 'https://placehold.co/600x400',
-  },
-  {
-    name: 'Super Meteor 650',
-    brand: 'Royal Enfield',
-    price: 8000,
-    engine: {
-      displacement: 648,
-      power: 47,
-      torque: 52,
-      cylinders: 1,
-    },
-    performance: {
-      topSpeed: 160,
-      acceleration: 4.5,
-      consumption: 25,
-    },
-    dimensions: {
-      weight: 202,
-      seatHeight: 800,
-      tankCapacity: 13.5,
-    },
-    image: 'https://placehold.co/600x400',
-  }
-])
+const router = useRouter()
+const token = ref(localStorage.getItem('token'))
+
+function logout() {
+  localStorage.removeItem('token')
+  token.value = null
+  router.push('/')
+}
 </script>
 
 <style scoped>
 #app {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
 }
 
-div[v-for] {
-  width: 100%;
-  max-width: 600px;
+nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #42b983;
+}
+
+nav a.router-link-exact-active {
+  font-weight: bold;
 }
 </style>
