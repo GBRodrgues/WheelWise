@@ -31,7 +31,8 @@ sequelize.sync({ force: false }) // Sincronizar os modelos com o banco de dados
         where: {
           moto_id: moto_id,
           status: true  // Filtra apenas os comentários com status true
-        }
+        },
+        order:[['id', 'ASC']]
       });
   
       // Verifica se há comentários
@@ -73,6 +74,21 @@ router.post('/', async (req, res) => {
     res.json(novoComentario);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.put('/', async (req, res) => {
+  try {
+    const alteracao = await Comments.update(
+      {status: req.body.status},
+      {where: {id: req.body.id_comentario}}
+    ); // Padrão Creator (GRASP)
+    if(alteracao != 0){
+      return res.status(200).json({msg: `Registro de id ${req.body.id_comentario} atualizado com sucesso`});
+    }
+    return res.status(401).json({error: `Erro ao atualizar o registro de id ${req.body.id_comentario}.`})
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 });
 
