@@ -4,18 +4,10 @@
       <router-link to="/">Home</router-link>
       <router-link to="/comparator">Comparador</router-link>
       <router-link to="/catalog">Catalogo</router-link>
-      <router-link
-        v-if="!token"
-        to="/login"
-      >Login</router-link>
-      <router-link
-        v-if="!token"
-        to="/register"
-      >Cadastro</router-link>
-      <a
-        v-if="token"
-        @click="logout"
-      >Sair</a>
+      <router-link v-if="!token" to="/login">Login</router-link>
+      <router-link v-if="!token" to="/register">Cadastro</router-link>
+      <a v-if="token" @click="logout">Sair</a>
+      
     </nav>
     <router-view />
   </div>

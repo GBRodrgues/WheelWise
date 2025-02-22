@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
         { expiresIn: '1h' }
       );
   
-      res.json({ message: 'Login bem-sucedido', token, user: { id: user.id, email: user.email, isAdmin: user.isAdmin } });
+      res.json({ message: 'Login bem-sucedido', token, user: { id: user.id, email: user.email, isAdmin: user.isAdmin, nome: user.nome, uf: user.UF  } });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro ao autenticar usuário' });

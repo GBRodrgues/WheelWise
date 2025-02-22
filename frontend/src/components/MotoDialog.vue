@@ -41,28 +41,7 @@
         </div>
       </div>
 
-      <div class="comments-section">
-        <h3>Comentários</h3>
-        <div
-          v-for="(comment, index) in comments"
-          :key="index"
-          class="comment"
-        >
-          <p>{{ comment }}</p>
-        </div>
-        <div class="add-comment">
-          <InputText
-            v-model="newComment"
-            placeholder="Adicionar comentário"
-            @keyup.enter="addComment"
-          />
-          <Button
-            label="Enviar"
-            icon="pi pi-check"
-            @click="addComment"
-          />
-        </div>
-      </div>
+      <Comment :motoId="moto.id" />
     </div>
   </Dialog>
 </template>
@@ -70,8 +49,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import Dialog from 'primevue/dialog'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
+import Comment from './Comment.vue'
 
 const props = defineProps({
   moto: {
@@ -90,45 +68,6 @@ const motoImage = computed(() =>
     ? props.moto.imagens[0].url
     : 'https://placehold.co/600x400'
 )
-
-const comments = ref([
-  'Esta moto é fantástica!',
-  'Incrível desempenho e design.'
-])
-
-const newComment = ref('')
-
-async function addComment() {
-  if (!newComment.value.trim()) return
-
-  const storedUser = localStorage.getItem('user')
-  if (!storedUser) return
-
-  const commentData = {
-    user_id: JSON.parse(storedUser).id,
-    moto_id: props.moto.id,
-    content: newComment.value.trim(),
-    status: true
-  }
-
-  try {
-    const response = await fetch('http://localhost:3001/comment/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(commentData)
-    })
-
-    if (!response.ok) {
-      throw new Error('Falha ao enviar comentário')
-    }
-
-    const savedComment = await response.json()
-    comments.value.push(savedComment.content)
-    newComment.value = ''
-  } catch (error) {
-    console.error('Erro ao enviar comentário:', error)
-  }
-}
 </script>
 
 <style scoped>
@@ -151,24 +90,5 @@ async function addComment() {
 
 .specifications {
   margin-top: 10px;
-}
-
-.comments-section {
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
-}
-
-.comment {
-  padding: 5px 0;
-}
-
-.add-comment {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.p-inputtext {
-  width: 100%;
 }
 </style>
