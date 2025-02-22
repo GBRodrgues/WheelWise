@@ -35,22 +35,38 @@ router.get('/', async (req, res) => {
 // Busca a lista de todos os nomes de motocicletas disponíveis
 router.get('/list', async (req, res) => {
   try {
-    const motos = await Motocicleta.findAll({
-      attributes: ['nome'],
-      raw: true // Retorna objetos puros sem instância Sequelize
-    });
-
-    // Transformar a resposta no formato desejado
-    const resposta = {
-      nomes: motos.map(moto => moto.nome)
-    };
+    let target = req.query.target;
+    if (!target) {
+      return res.status(400).json({ error: "Parâmetro target['motos','fabricantes'] não informado"});
+    }
+    let resposta = {};
+    if (target == 'motos'){
+      const motos = await Motocicleta.findAll({
+        attributes: ['nome'],
+        raw: true // Retorna objetos puros sem instância Sequelize
+      });
+  
+      // Transformar a resposta no formato desejado
+      resposta = {
+        nomes: motos.map(moto => moto.nome)
+      };
+    } else if (target == 'fabricantes'){
+      const fabricantes = await Fabricantes.findAll({
+        attributes: ['nome', 'id'],
+        raw: true // Retorna objetos puros sem instância Sequelize
+      });
+      // Transformar a resposta no formato desejado
+      resposta = fabricantes.reduce((acc, fabricante) => {
+        acc[fabricante.id] = fabricante.nome;
+        return acc;
+      }, {});
+    }
 
     res.json(resposta);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 // Rota para adicionar uma nova motocicleta
 router.post('/', async (req, res) => {
@@ -84,5 +100,6 @@ router.post('/img', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 export default router;
