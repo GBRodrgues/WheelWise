@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
         {
           model: Img_motocicletas,
           as: 'imagens',
-          attributes: ['id', 'url', 'data_insercao'],
+          attributes: ['id', 'url'],
         }
       ]
     });
