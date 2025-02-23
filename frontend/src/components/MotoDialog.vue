@@ -92,6 +92,7 @@ const motoImage = computed(() =>
   width: 60%;
   height: auto;
   border-radius: 4px;
+  object-fit: cover;
 }
 
 .specifications {

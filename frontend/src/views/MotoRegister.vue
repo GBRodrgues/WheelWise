@@ -22,6 +22,14 @@
           />
         </div>
         <div class="form-group">
+          <label for="imageUrl">URL da Imagem</label>
+          <InputText
+            id="imageUrl"
+            v-model="formData.imageUrl"
+            required
+          />
+        </div>
+        <div class="form-group">
           <label for="id_fabricante">Fabricante</label>
           <Dropdown
             id="id_fabricante"
@@ -34,11 +42,12 @@
           />
         </div>
         <div class="form-group">
-          <label for="imageUrl">URL da Imagem</label>
-          <InputText
-            id="imageUrl"
-            v-model="formData.imageUrl"
-            required
+          <label for="add_fabricante">&nbsp;</label>
+          <Button
+            id="add_fabricante"
+            class="add-manufacturer-button"
+            icon="pi pi-plus"
+            @click="openFabricanteDialog"
           />
         </div>
       </div>
@@ -167,6 +176,12 @@
         type="submit"
       />
     </form>
+
+    <!-- Modal para adicionar Fabricante -->
+    <FabricanteDialog
+      v-model:visible="fabricanteDialogVisible"
+      @added="handleFabricanteAdded"
+    />
   </div>
 </template>
 
@@ -175,6 +190,7 @@ import { ref, onMounted } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
+import FabricanteDialog from '../components/FabricanteDialog.vue'
 
 const formData = ref({
   nome: '',
@@ -207,6 +223,8 @@ const dimensoes = ref({
 
 const fabricantes = ref([])
 
+const fabricanteDialogVisible = ref(false)
+
 onMounted(async () => {
   try {
     const response = await fetch('http://localhost:3001/motocicletas/list?target=fabricantes')
@@ -214,7 +232,6 @@ onMounted(async () => {
       throw new Error('Erro ao buscar fabricantes')
     }
     const data = await response.json()
-    // Converte o objeto retornado em um array de objetos com 'code' e 'name'
     fabricantes.value = Object.entries(data).map(([key, value]) => ({
       code: key,
       name: value
@@ -224,8 +241,19 @@ onMounted(async () => {
   }
 })
 
+function openFabricanteDialog() {
+  fabricanteDialogVisible.value = true
+}
+
+function handleFabricanteAdded(newFabricante) {
+  fabricantes.value.push({
+    code: newFabricante.id.toString(),
+    name: newFabricante.nome
+  })
+  formData.value.id_fabricante = newFabricante.id.toString()
+}
+
 async function createMoto() {
-  // Monta o payload para criar a motocicleta
   const payload = {
     nome: formData.value.nome,
     ano_fabricacao: formData.value.ano_fabricacao,
@@ -236,7 +264,6 @@ async function createMoto() {
   }
 
   try {
-    // Cria a motocicleta
     const response = await fetch('http://localhost:3001/motocicletas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -250,7 +277,6 @@ async function createMoto() {
     const motoCriada = await response.json()
     console.log('Moto criada com sucesso:', motoCriada)
 
-    // Após a criação da moto, envia a URL da imagem para o endpoint /img
     if (formData.value.imageUrl.trim() !== '') {
       const imgPayload = {
         id_motocicleta: motoCriada.id,
@@ -270,7 +296,6 @@ async function createMoto() {
       console.log('Imagem salva com sucesso:', imgData)
     }
 
-    // Limpa o formulário
     formData.value = { nome: '', ano_fabricacao: null, id_fabricante: null, imageUrl: '' }
     motor.value = { cilindradas: '', tipo: '', potencia: '', torque: '', refrigeracao: '' }
     performance.value = { velocidade_maxima: '', aceleracao: '', consumo: '', transmissao: '' }
@@ -306,7 +331,6 @@ async function createMoto() {
 }
 
 .general-data-container .form-group {
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -316,6 +340,12 @@ async function createMoto() {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
+}
+
+.manufacturer-group .manufacturer-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 label {
@@ -358,6 +388,11 @@ legend {
 ::v-deep .p-button {
   display: block;
   width: 100%;
-  margin-top: 20px;
+}
+
+/* Estilização específica para o botão de adicionar fabricante */
+.add-manufacturer-button {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 </style>
