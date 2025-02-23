@@ -15,29 +15,35 @@
           class="moto-image-dialog"
         />
         <div class="specifications">
-          <h2>{{ moto.nome }} - {{ moto.fabricante.nome }}</h2>
-          <b>Motor</b>
-          <p>Cilindrada: {{ moto.json_motor.cilindradas }}</p>
-          <p>Tipo: {{ moto.json_motor.tipo }}</p>
-          <p>Potência: {{ moto.json_motor.potencia }}</p>
-          <p>Torque: {{ moto.json_motor.torque }}</p>
-          <p v-if="moto.json_motor.refrigeracao">
-            Refrigeração: {{ moto.json_motor.refrigeracao }}
-          </p>
-          <b>Performance</b>
-          <p>Velocidade Máxima: {{ moto.json_performance.velocidade_maxima }}</p>
-          <p v-if="moto.json_performance.aceleracao">
-            Aceleração: {{ moto.json_performance.aceleracao }} s (0-100 km/h)
-          </p>
-          <p>Consumo: {{ moto.json_performance.consumo }}</p>
-          <p v-if="moto.json_performance.transmissao">
-            Transmissão: {{ moto.json_performance.transmissao }}
-          </p>
-          <b>Dimensões</b>
-          <p>Peso: {{ moto.json_dimensoes.peso }}</p>
-          <p>Comprimento: {{ moto.json_dimensoes.comprimento }}</p>
-          <p>Altura do Assento: {{ moto.json_dimensoes.altura_assento }}</p>
-          <p>Entre-eixos: {{ moto.json_dimensoes.entre_eixos }}</p>
+          <div class="specs">
+            <h2>{{ moto.nome }} - {{ moto.fabricante.nome }}</h2>
+            <b>Motor</b>
+            <p>Cilindrada: {{ moto.json_motor.cilindradas }}</p>
+            <p>Tipo: {{ moto.json_motor.tipo }}</p>
+            <p>Potência: {{ moto.json_motor.potencia }}</p>
+            <p>Torque: {{ moto.json_motor.torque }}</p>
+            <p v-if="moto.json_motor.refrigeracao">
+              Refrigeração: {{ moto.json_motor.refrigeracao }}
+            </p>
+          </div>
+          <div class="specs">
+            <b>Performance</b>
+            <p>Velocidade Máxima: {{ moto.json_performance.velocidade_maxima }}</p>
+            <p v-if="moto.json_performance.aceleracao">
+              Aceleração: {{ moto.json_performance.aceleracao }} s (0-100 km/h)
+            </p>
+            <p>Consumo: {{ moto.json_performance.consumo }}</p>
+            <p v-if="moto.json_performance.transmissao">
+              Transmissão: {{ moto.json_performance.transmissao }}
+            </p>
+          </div>
+          <div class="specs">
+            <b>Dimensões</b>
+            <p>Peso: {{ moto.json_dimensoes.peso }}</p>
+            <p>Comprimento: {{ moto.json_dimensoes.comprimento }}</p>
+            <p>Altura do Assento: {{ moto.json_dimensoes.altura_assento }}</p>
+            <p>Entre-eixos: {{ moto.json_dimensoes.entre_eixos }}</p>
+          </div>
         </div>
       </div>
 
@@ -90,5 +96,9 @@ const motoImage = computed(() =>
 
 .specifications {
   margin-top: 10px;
+}
+
+.specs {
+  margin-bottom: 20px;
 }
 </style>

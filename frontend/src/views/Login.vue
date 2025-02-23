@@ -52,6 +52,7 @@ const login = async () => {
       const data = await response.json()
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
+      localStorage.setItem('isAdmin', data.user.isAdmin)
       window.location.href = '/'
     } else {
       alert('Email ou senha inválidos')

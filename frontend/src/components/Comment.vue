@@ -8,19 +8,23 @@
     >
       <div class="comment-header">
         <p>
-          <strong>{{ comment.user_name }} ({{ comment.user_uf }}) </strong>
+          <strong>{{ comment.user_name }} ({{ comment.user_uf }})</strong>
           <small>{{ formatDate(comment.createdAt) }}</small>
         </p>
         <Button
+          v-if="isAdmin"
           icon="pi pi-times"
           class="p-button-rounded p-button-danger"
           @click="deleteComment(comment.id)"
         >X</Button>
       </div>
-      {{ comment.content }}
+      <p>{{ comment.content }}</p>
     </div>
 
-    <div class="add-comment">
+    <div
+      class="add-comment"
+      v-if="token"
+    >
       <InputText
         v-model="newComment"
         placeholder="Adicionar comentário"
@@ -32,6 +36,14 @@
         @click="addComment"
       />
     </div>
+    <div
+      class="add-comment"
+      v-else
+    >
+      <p>
+        Para comentar, faça <router-link to="/login">login</router-link>.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -39,6 +51,9 @@
 import { ref, onMounted } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
+
+const isAdmin = ref(localStorage.getItem('isAdmin')).value == 'true' ? true : false
+const token = localStorage.getItem('token')
 
 const props = defineProps({
   motoId: {

@@ -6,8 +6,8 @@
       <router-link to="/catalog">Catalogo</router-link>
       <router-link v-if="!token" to="/login">Login</router-link>
       <router-link v-if="!token" to="/register">Cadastro</router-link>
+      <router-link v-if="isAdmin" to="/moto-register">Cadastro de Motos</router-link>
       <a v-if="token" @click="logout">Sair</a>
-      
     </nav>
     <router-view />
   </div>
@@ -19,10 +19,12 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const token = ref(localStorage.getItem('token'))
+let isAdmin = ref(localStorage.getItem('isAdmin')).value == 'true' ? true : false
 
 function logout() {
-  localStorage.removeItem('token')
+  localStorage.clear()
   token.value = null
+  isAdmin = false
   router.push('/')
 }
 </script>
