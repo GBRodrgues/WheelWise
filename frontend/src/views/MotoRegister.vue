@@ -2,7 +2,6 @@
   <div class="moto-create">
     <h1>Adicionar Moto</h1>
     <form @submit.prevent="createMoto">
-      <!-- Dados Gerais: organizados horizontalmente -->
       <div class="general-data-container">
         <div class="form-group">
           <label for="nome">Nome</label>
@@ -52,9 +51,7 @@
         </div>
       </div>
 
-      <!-- Container Horizontal para os fieldsets -->
       <div class="horizontal-container">
-        <!-- Fieldset: Especificações do Motor -->
         <fieldset class="fieldset">
           <legend>Motor</legend>
           <div class="form-group">
@@ -98,7 +95,6 @@
           </div>
         </fieldset>
 
-        <!-- Fieldset: Performance -->
         <fieldset class="fieldset">
           <legend>Performance</legend>
           <div class="form-group">
@@ -133,7 +129,6 @@
           </div>
         </fieldset>
 
-        <!-- Fieldset: Dimensões -->
         <fieldset class="fieldset">
           <legend>Dimensões</legend>
           <div class="form-group">
@@ -177,7 +172,6 @@
       />
     </form>
 
-    <!-- Modal para adicionar Fabricante -->
     <FabricanteDialog
       v-model:visible="fabricanteDialogVisible"
       @added="handleFabricanteAdded"
@@ -222,24 +216,25 @@ const dimensoes = ref({
 })
 
 const fabricantes = ref([])
-
 const fabricanteDialogVisible = ref(false)
 
-onMounted(async () => {
+async function loadFabricantes() {
   try {
-    const response = await fetch('http://localhost:3001/motocicletas/list?target=fabricantes')
-    if (!response.ok) {
-      throw new Error('Erro ao buscar fabricantes')
-    }
+    const response = await fetch(
+      'http://localhost:3001/motocicletas/list?target=fabricantes'
+    )
+    if (!response.ok) throw new Error('Erro ao buscar fabricantes')
     const data = await response.json()
-    fabricantes.value = Object.entries(data).map(([key, value]) => ({
-      code: key,
-      name: value
+    fabricantes.value = Object.entries(data).map(([code, name]) => ({
+      code,
+      name
     }))
   } catch (error) {
     console.error('Erro ao buscar fabricantes:', error)
   }
-})
+}
+
+onMounted(loadFabricantes)
 
 function openFabricanteDialog() {
   fabricanteDialogVisible.value = true
@@ -269,15 +264,12 @@ async function createMoto() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-
-    if (!response.ok) {
-      throw new Error('Falha ao criar motocicleta')
-    }
+    if (!response.ok) throw new Error('Falha ao criar motocicleta')
 
     const motoCriada = await response.json()
     console.log('Moto criada com sucesso:', motoCriada)
 
-    if (formData.value.imageUrl.trim() !== '') {
+    if (formData.value.imageUrl.trim()) {
       const imgPayload = {
         id_motocicleta: motoCriada.id,
         url: formData.value.imageUrl.trim()
@@ -287,25 +279,23 @@ async function createMoto() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(imgPayload)
       })
-
-      if (!imgResponse.ok) {
-        throw new Error('Falha ao salvar a imagem')
-      }
-
-      const imgData = await imgResponse.json()
-      console.log('Imagem salva com sucesso:', imgData)
+      if (!imgResponse.ok) throw new Error('Falha ao salvar a imagem')
+      console.log('Imagem salva com sucesso:', await imgResponse.json())
     }
 
-    formData.value = { nome: '', ano_fabricacao: null, id_fabricante: null, imageUrl: '' }
-    motor.value = { cilindradas: '', tipo: '', potencia: '', torque: '', refrigeracao: '' }
-    performance.value = { velocidade_maxima: '', aceleracao: '', consumo: '', transmissao: '' }
-    dimensoes.value = { peso: '', comprimento: '', altura_assento: '', entre_eixos: '' }
-
+    resetForms()
     alert('Moto criada com sucesso!')
   } catch (error) {
     console.error('Erro ao criar moto:', error)
     alert('Erro ao criar moto')
   }
+}
+
+function resetForms() {
+  formData.value = { nome: '', ano_fabricacao: null, id_fabricante: null, imageUrl: '' }
+  motor.value = { cilindradas: '', tipo: '', potencia: '', torque: '', refrigeracao: '' }
+  performance.value = { velocidade_maxima: '', aceleracao: '', consumo: '', transmissao: '' }
+  dimensoes.value = { peso: '', comprimento: '', altura_assento: '', entre_eixos: '' }
 }
 </script>
 
@@ -331,7 +321,6 @@ async function createMoto() {
 }
 
 .general-data-container .form-group {
-  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -342,18 +331,11 @@ async function createMoto() {
   flex-direction: column;
 }
 
-.manufacturer-group .manufacturer-input {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 label {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-/* Container que organiza os fieldsets horizontalmente */
 .horizontal-container {
   display: flex;
   gap: 20px;
@@ -362,7 +344,6 @@ label {
   justify-content: space-between;
 }
 
-/* Cada fieldset tem largura flexível e um mínimo para manter a legibilidade */
 .fieldset {
   flex: 1;
   min-width: 280px;
@@ -390,7 +371,6 @@ legend {
   width: 100%;
 }
 
-/* Estilização específica para o botão de adicionar fabricante */
 .add-manufacturer-button {
   width: 2.5rem;
   height: 2.5rem;

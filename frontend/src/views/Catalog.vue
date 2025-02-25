@@ -32,7 +32,6 @@ const selectedMoto = ref(null)
 const showDialog = ref(false)
 
 const openMotoDialog = (moto) => {
-  console.log('Showing dialog for moto:', moto)
   selectedMoto.value = moto
   showDialog.value = true
 }
@@ -41,7 +40,6 @@ const fetchMotos = async () => {
   try {
     const response = await fetch('http://localhost:3001/motocicletas')
     motos.value = await response.json()
-    console.log('Motos:', motos.value)
   } catch (error) {
     console.error('Error fetching motos:', error)
   }

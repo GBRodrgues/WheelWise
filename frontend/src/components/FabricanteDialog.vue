@@ -47,15 +47,11 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 
 const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    default: false
-  }
+  modelValue: Boolean
 })
 const emit = defineEmits(['update:modelValue', 'added'])
 
 const visible = ref(props.modelValue)
-
 const form = ref({
   nome: '',
   nacionalidade: '',
@@ -74,13 +70,9 @@ async function createFabricante() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form.value)
     })
-    if (!response.ok) {
-      throw new Error('Erro ao criar fabricante')
-    }
+    if (!response.ok) throw new Error('Erro ao criar fabricante')
     const data = await response.json()
-    // Emite o fabricante criado para que o componente pai possa atualizá-lo
     emit('added', data)
-    // Limpa o formulário e fecha o modal
     form.value = { nome: '', nacionalidade: '', data_fundacao: '' }
     visible.value = false
     emit('update:modelValue', false)

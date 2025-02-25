@@ -1,9 +1,9 @@
 <template>
-  <Button @click="addCard">Adicionar Card</Button>
+  <Button @click="addCardEntry">Adicionar Card</Button>
 
   <div class="cards-wrapper">
     <div
-      v-for="(card, index) in cardList"
+      v-for="(card, index) in cards"
       :key="index"
       class="card-container"
     >
@@ -16,7 +16,7 @@
       />
       <div v-if="card.selectedMotoId">
         <MotoCard
-          :moto="getMoto(card.selectedMotoId)"
+          :moto="findMotoById(card.selectedMotoId)"
           show-spec
         />
       </div>
@@ -30,27 +30,31 @@ import MotoCard from '../components/MotoCard.vue'
 import Select from 'primevue/select'
 import Button from 'primevue/button'
 
+const MAX_CARDS = 3
 const motos = ref([])
-const cardList = ref([{ selectedMotoId: null }, { selectedMotoId: null }])
+const cards = ref([{ selectedMotoId: null }, { selectedMotoId: null }])
 
-function addCard() {
-  if (cardList.value.length >= 5) return
-  cardList.value.push({ selectedMotoId: null })
+function addCardEntry() {
+  if (cards.value.length < MAX_CARDS) {
+    cards.value.push({ selectedMotoId: null })
+  }
 }
 
-function getMoto(selectedId) {
+function findMotoById(selectedId) {
   return motos.value.find(moto => moto.id === selectedId)
 }
 
-onMounted(async () => {
+async function loadMotos() {
   try {
     const response = await fetch('http://localhost:3001/motocicletas')
     motos.value = await response.json()
-    console.log('Motos:', motos.value)
+    console.log('Fetched motos:', motos.value)
   } catch (error) {
     console.error('Error fetching motos:', error)
   }
-})
+}
+
+onMounted(loadMotos)
 </script>
 
 <style scoped>

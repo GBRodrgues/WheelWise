@@ -8,7 +8,7 @@
     >
       <div class="comment-header">
         <p>
-          <strong>{{ comment.user_name }} ({{ comment.user_uf }})</strong>
+          <strong>{{ comment.user_name }} ({{ comment.user_uf }}) </strong>
           <small>{{ formatDate(comment.createdAt) }}</small>
         </p>
         <Button
@@ -52,9 +52,6 @@ import { ref, onMounted } from 'vue'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 
-const isAdmin = ref(localStorage.getItem('isAdmin')).value == 'true' ? true : false
-const token = localStorage.getItem('token')
-
 const props = defineProps({
   motoId: {
     type: [String, Number],
@@ -63,11 +60,12 @@ const props = defineProps({
 })
 
 const comments = ref([])
-const newComment = ref("")
+const newComment = ref('')
+const token = localStorage.getItem('token')
+const isAdmin = localStorage.getItem('isAdmin') === 'true'
 
 function formatDate(dateStr) {
-  const date = new Date(dateStr)
-  return date.toLocaleString()
+  return new Date(dateStr).toLocaleString()
 }
 
 async function fetchComments() {
@@ -115,7 +113,7 @@ async function addComment() {
     savedComment.user_name = user.nome
     savedComment.user_uf = user.uf
     comments.value.push(savedComment)
-    newComment.value = ""
+    newComment.value = ''
   } catch (error) {
     console.error('Erro ao enviar comentário:', error)
   }
@@ -141,10 +139,7 @@ async function deleteComment(commentId) {
   }
 }
 
-
-onMounted(() => {
-  fetchComments()
-})
+onMounted(fetchComments)
 </script>
 
 <style scoped>
@@ -158,6 +153,12 @@ onMounted(() => {
   padding: 5px 0;
 }
 
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .add-comment {
   display: flex;
   gap: 10px;
@@ -166,11 +167,5 @@ onMounted(() => {
 
 ::v-deep .p-inputtext {
   width: 100%;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 </style>

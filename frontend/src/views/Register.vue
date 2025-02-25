@@ -43,13 +43,15 @@ import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import FloatLabel from 'primevue/floatlabel'
 
-const formData = reactive({
+const defaultFormData = {
   nome: '',
   email: '',
   senha: '',
   idade: null,
   UF: ''
-})
+}
+
+const formData = reactive({ ...defaultFormData })
 
 const fields = [
   { id: 'nome', label: 'Nome', type: 'text', model: 'nome', required: true },
@@ -104,11 +106,7 @@ async function submitForm() {
 }
 
 function resetForm() {
-  formData.nome = ''
-  formData.email = ''
-  formData.senha = ''
-  formData.idade = null
-  formData.UF = ''
+  Object.assign(formData, defaultFormData)
 }
 </script>
 

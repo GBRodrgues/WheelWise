@@ -46,7 +46,6 @@
           </div>
         </div>
       </div>
-
       <Comment :motoId="moto.id" />
     </div>
   </Dialog>
@@ -69,30 +68,30 @@ const visible = ref(true)
 
 const handleHide = () => emit('close')
 
-const motoImage = computed(() =>
-  props.moto.imagens && props.moto.imagens.length > 0
+const motoImage = computed(() => {
+  return props.moto.imagens && props.moto.imagens.length > 0
     ? props.moto.imagens[0].url
     : 'https://placehold.co/600x400'
-)
+})
 </script>
 
 <style scoped>
-.moto-details {
-  display: flex;
-  gap: 20px;
-}
-
 .dialog-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+.moto-details {
+  display: flex;
+  gap: 20px;
+}
+
 .moto-image-dialog {
   width: 60%;
   height: auto;
-  border-radius: 4px;
   object-fit: cover;
+  border-radius: 4px;
 }
 
 .specifications {
