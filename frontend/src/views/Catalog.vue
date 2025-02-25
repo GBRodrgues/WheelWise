@@ -31,7 +31,7 @@ const motos = ref([])
 const selectedMoto = ref(null)
 const showDialog = ref(false)
 
-const openMotoDialog = (moto) => {
+function openMotoDialog(moto) {
   selectedMoto.value = moto
   showDialog.value = true
 }
