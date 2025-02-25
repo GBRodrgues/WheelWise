@@ -50,4 +50,10 @@ const User = sequelize.define('users', {
   }
 });
 
+// Método de fábrica para criar um novo usuário
+User.createUser = async function(data) {
+  const user = await User.create(data);
+  return user;
+};
+
 export default User;

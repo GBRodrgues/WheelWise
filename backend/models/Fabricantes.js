@@ -24,4 +24,10 @@ const Fabricantes = sequelize.define('fabricantes', {
   timestamps: true  
 });
 
+// Método de fábrica para criar uma nova fabricante
+Fabricantes.createFabricante= async function(data) {
+  const fabricante = await Fabricantes.create(data);
+  return fabricante;
+};
+
 export default Fabricantes;

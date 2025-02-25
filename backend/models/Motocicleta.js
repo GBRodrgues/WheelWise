@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../db.js';
+import Img_motocicletas from './Img_motocicleta.js';
+
 
 // Modelo information express (GRASP)
 const Motocicleta = sequelize.define('motocicleta', {
@@ -36,5 +38,32 @@ const Motocicleta = sequelize.define('motocicleta', {
 },{
   timestamps: true  
 });
+
+
+// Método de fábrica para criar uma nova motocicleta
+Motocicleta.createMotocicleta = async function(data) {
+  const motocicleta = await Motocicleta.create(data);
+  return motocicleta;
+};
+
+// Método de fábrica para buscar instancia de motocicleta
+Motocicleta.getMotocicleta = async function(id) {
+  const motocicleta = await Motocicleta.findByPk(
+    id
+  );
+  return motocicleta;
+};
+
+// Método para adicionar uma imagem à motocicleta
+Motocicleta.prototype.addImage = async function(imageData) {
+  const image = await Img_motocicletas.create({
+    id_motocicleta: this.id,
+    ...imageData
+  });
+  if (!image) {
+    throw new Error('Erro ao adicionar imagem');
+  }
+  return image;
+};
 
 export default Motocicleta;

@@ -1,3 +1,8 @@
+// Padrões implementados nesse arquivo:
+// - Singleton (GoF): Dentro da classe Database, onde é garantido que apenas uma instância do Sequelize seja criada.
+// - High Cohesion (GRASP): Onde a classe Database tem apenas uma responsabilidade, que é criar a instância do Sequelize.
+// - Low Coupling (GRASP): Onde a classe Database não depende de outras classes para funcionar.
+
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 import path from 'path';

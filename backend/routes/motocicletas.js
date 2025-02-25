@@ -1,12 +1,13 @@
 import express from 'express';
 const router = express.Router();
-import { sequelize, Fabricantes, Motocicleta, Img_motocicletas } from '../models/index.js'; // Importando os modelos corretamente
+import { sequelize, Fabricantes, Motocicleta, Img_motocicletas } from '../models/index.js'; 
 
-sequelize.sync({ force: false }) // Sincronizar os modelos com o banco de dados
+sequelize.sync({ force: false }) 
   .then(() => console.log('Banco de dados sincronizado'))
   .catch(err => console.error('Erro ao sincronizar banco de dados:', err));
 
-// Padrão controller graps, pois a rota atua como controller
+// Padrão controller graps, pois as rotas atuam como controller
+
 
 // Rota para obter todas as motocicletas
 router.get('/', async (req, res) => {
@@ -32,6 +33,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 // Busca a lista de todos os nomes de motocicletas disponíveis
 router.get('/list', async (req, res) => {
   try {
@@ -43,23 +45,24 @@ router.get('/list', async (req, res) => {
     if (target == 'motos'){
       const motos = await Motocicleta.findAll({
         attributes: ['nome'],
-        raw: true // Retorna objetos puros sem instância Sequelize
+        raw: true 
       });
   
-      // Transformar a resposta no formato desejado
       resposta = {
         nomes: motos.map(moto => moto.nome)
       };
+
     } else if (target == 'fabricantes'){
       const fabricantes = await Fabricantes.findAll({
         attributes: ['nome', 'id'],
-        raw: true // Retorna objetos puros sem instância Sequelize
+        raw: true
       });
-      // Transformar a resposta no formato desejado
+
       resposta = fabricantes.reduce((acc, fabricante) => {
         acc[fabricante.id] = fabricante.nome;
         return acc;
       }, {});
+
     }
 
     res.json(resposta);
@@ -72,7 +75,7 @@ router.get('/list', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     console.log(req.body)
-    const novaMoto = await Motocicleta.create(req.body); // Padrão Creator (GRASP)
+    const novaMoto = await Motocicleta.createMotocicleta(req.body); // Padrão Creator (GRASP)
     res.json(novaMoto);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -83,7 +86,7 @@ router.post('/', async (req, res) => {
 router.post('/fabricante', async (req, res) => {
   try {
     console.log(req.body)
-    const novo_fabricante = await Fabricantes.create(req.body); // Padrão Creator (GRASP)
+    const novo_fabricante = await Fabricantes.createFabricante(req.body); // Padrão Creator (GRASP)
     res.json(novo_fabricante);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -93,9 +96,18 @@ router.post('/fabricante', async (req, res) => {
 // Rota para adicionar uma nova imagem de moto
 router.post('/img', async (req, res) => {
   try {
-    console.log(req.body)
-    const img = await Img_motocicletas.create(req.body); // Padrão Creator (GRASP)
-    res.json(img);
+    const moto = await Motocicleta.getMotocicleta(req.body.id_motocicleta);
+    console.log(moto.id)
+    if (!moto) {
+      return res.status(404).json({ error: 'Motocicleta não encontrada' });
+    }
+    const img = moto.addImage(req.body); // Padrão information expert (GRASP)
+
+    if (!img) {
+      return res.status(500).json({ error: 'Erro ao adicionar imagem' });
+    }else{
+      res.json({message: 'Imagem adicionada com sucesso'});
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
