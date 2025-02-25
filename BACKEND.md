@@ -124,7 +124,7 @@ Este documento descreve os padrões de projeto (GoF) e os princípios GRASP impl
 ## Conclusão
 
 O projeto demonstra uma aplicação consistente dos padrões GoF e princípios GRASP, distribuindo responsabilidades de forma clara e modular.  
-- **Padrões GoF** foram aplicados para garantir instâncias únicas (Singleton), simplificar interfaces (Facade), encapsular a criação de objetos (Factory Method) e executar ações customizadas durante o ciclo de vida dos objetos (Hook).  
+- **Padrões GoF** foram aplicados para garantir instâncias únicas (Singleton), simplificar interfaces (Facade), encapsular a criação de objetos (Factory Method).
 - **Princípios GRASP** foram evidenciados com o uso de controllers para orquestrar operações, o princípio de Creator para delegar a criação de objetos, Information Expert para centralizar o conhecimento nos models, e práticas de alta coesão e baixo acoplamento que permeiam todo o código.
 
 Essa abordagem torna o sistema mais fácil de manter, escalável e robusto, refletindo boas práticas de design de software.
