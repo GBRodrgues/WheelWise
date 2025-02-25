@@ -40,7 +40,7 @@ const formData = ref({
   senha: ''
 })
 
-const login = async () => {
+async function login() {
   try {
     const response = await fetch('http://localhost:3001/auth/login', {
       method: 'POST',

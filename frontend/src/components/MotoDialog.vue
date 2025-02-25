@@ -66,7 +66,9 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 const visible = ref(true)
 
-const handleHide = () => emit('close')
+function handleHide() {
+  return emit('close')
+}
 
 const motoImage = computed(() => {
   return props.moto.imagens && props.moto.imagens.length > 0

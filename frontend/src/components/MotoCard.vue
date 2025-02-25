@@ -13,19 +13,13 @@
         <p>Tipo: {{ moto.json_motor.tipo }}</p>
         <p>Potência: {{ moto.json_motor.potencia }}</p>
         <p>Torque: {{ moto.json_motor.torque }}</p>
-        <p v-if="moto.json_motor.refrigeracao">
-          Refrigeração: {{ moto.json_motor.refrigeracao }}
-        </p>
+        <p> Refrigeração: {{ moto.json_motor.refrigeracao }} </p>
       </AccordionTab>
       <AccordionTab header="Performance">
         <p>Velocidade Máxima: {{ moto.json_performance.velocidade_maxima }}</p>
-        <p v-if="moto.json_performance.aceleracao">
-          Aceleração: {{ moto.json_performance.aceleracao }} s (0-100 km/h)
-        </p>
+        <p> Aceleração: {{ moto.json_performance.aceleracao }} s (0-100 km/h) </p>
         <p>Consumo: {{ moto.json_performance.consumo }}</p>
-        <p v-if="moto.json_performance.transmissao">
-          Transmissão: {{ moto.json_performance.transmissao }}
-        </p>
+        <p> Transmissão: {{ moto.json_performance.transmissao }} </p>
       </AccordionTab>
       <AccordionTab header="Dimensões">
         <p>Peso: {{ moto.json_dimensoes.peso }}</p>

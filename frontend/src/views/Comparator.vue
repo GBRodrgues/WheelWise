@@ -17,6 +17,7 @@
       <div v-if="card.selectedMotoId">
         <MotoCard
           :moto="findMotoById(card.selectedMotoId)"
+          :key="card.selectedMotoId"
           show-spec
         />
       </div>
